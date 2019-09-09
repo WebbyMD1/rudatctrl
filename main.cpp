@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iomanip>
 #include <hidapi/hidapi.h>
-#include "../rudat6klib/rudat_6000_90_attenuator.hpp"
+#include "rudat_6000_90_attenuator.hpp"
 #include <cxxopts.hpp>
 
 
