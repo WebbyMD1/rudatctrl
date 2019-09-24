@@ -1,5 +1,3 @@
-// This example code configures the raspberry pi to read the rotary encoders
-
 #include <iostream>
 #include <unistd.h>
 #include <string>
@@ -9,13 +7,8 @@
 #include "rudat_6000_90_attenuator.hpp"
 #include <cxxopts.hpp>
 
-
 static unsigned short sVendorId  = 0x20ce ;
 static unsigned short sProductId = 0x0023 ;
-
-// Paths into the file system for hardware objects
-static const std::string attenuator_a_path = "/dev/hidraw0" ;
-static const std::string attenuator_b_path = "/dev/hidraw1" ;
 
 // RUDAT programmable attenuators are represented in the Linux filesystem as:
 // /dev/hidraw0 ... /dev/hidraw1 etc
