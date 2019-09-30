@@ -111,7 +111,8 @@ int main( int argc, char* argv[] )
                 cur_dev = cur_dev->next ;
             }
 
-            retval = 0 ;
+            if ( found == true ) { retval =  0 ; }
+            else                 { retval = -1 ; }
         }
         else
         {
@@ -153,10 +154,10 @@ int main( int argc, char* argv[] )
                 cur_dev = cur_dev->next ;
             }
 
-            retval = 0 ;
+            if ( found == true ) { retval =  0 ; }
+            else                 { retval = -1 ; }
+            }
         }
-
-        retval = 0 ;
     }
     else
     {
