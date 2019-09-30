@@ -156,7 +156,6 @@ int main( int argc, char* argv[] )
 
             if ( found == true ) { retval =  0 ; }
             else                 { retval = -1 ; }
-            }
         }
     }
     else
