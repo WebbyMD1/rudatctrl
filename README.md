@@ -1,6 +1,6 @@
 # Project Title
 
-This project was started to enable control of Mini-Circuits Rudat 6000 programmable RF attenuators. Windows support for these devices is moderately good however Linux support was poor. The official documentation requires the user to write their own code to communicate using USB. I have developed this simple command line tool to control Rudat 600 attenuators, however it should be a good starting point for other USB attenuators from Mini-Circuits.
+This project was started to enable control of Mini-Circuits Rudat 6000 programmable RF attenuators. Linux support for these devices is documented but there are few, if any, libraries or applications for Linux. I have developed this simple command line tool to control Rudat 600 attenuators, however it should be a good starting point for other USB attenuators from Mini-Circuits.
 
 ## Getting Started
 

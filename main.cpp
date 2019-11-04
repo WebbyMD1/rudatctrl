@@ -100,6 +100,7 @@ int main( int argc, char* argv[] )
                         if ( attenuator.setAttenuation( atten ) != true )
                         {
                             std::cerr << "attenuation out of range" << std::endl ;
+                            retval = -1 ;
                         }
                         
                         found = true ;
@@ -110,8 +111,6 @@ int main( int argc, char* argv[] )
             
                 cur_dev = cur_dev->next ;
             }
-
-            retval = 0 ;
         }
         else
         {
@@ -138,6 +137,7 @@ int main( int argc, char* argv[] )
                         if ( attenuator.readAttenuation( a ) != true )
                         {
                             std::cerr << "error reading attenuation" << std::endl ;
+                            retval = -1 ;
                         }
                         else
                         {
