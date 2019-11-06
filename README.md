@@ -6,7 +6,7 @@ This project was started to enable control of Mini-Circuits Rudat 6000 programma
 
 These instructions will let you build, install and execute the rudatctrl command line application.
 
-The code has been tested on Raspberry Pi 2,3 and 4.
+The code has been tested on Raspberry Pi 2 and 3. It does however NOT work on Raspberry Pi 4. The low level hid_read function call fails on the Pi 4 for unknown reasons.
 
 ### Prerequisites
 
