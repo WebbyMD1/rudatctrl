@@ -14,6 +14,10 @@ The following components are needed to build the code base
 
 sudo apt-get install libusb-dev libusb-1.0.0-dev libudev-dev libhidapi-dev libserial-dev
 
+In addition you must install the cxxopts header:
+git clone https://github.com/jarro2783/cxxopts.git
+sudo cp cxxopts/include/cxxopts.hpp /usr/local/include
+
 ### Building
 
 The code is so simple a makefile is not necessary. Build using the following command line
