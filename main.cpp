@@ -101,8 +101,10 @@ int main( int argc, char* argv[] )
                         {
                             std::cerr << "attenuation out of range" << std::endl ;
                         }
-                        
-                        found = true ;
+                        else
+                        {
+                            found = true ;
+                        }
                     }
 
                     hid_close( pHandle ) ;
@@ -143,9 +145,10 @@ int main( int argc, char* argv[] )
                         else
                         {
                             std::cout << a << std::endl ;
+                            found = true ;
                         }
 
-                        found = true ;
+                        
                     }
 
                     hid_close( pHandle ) ;
