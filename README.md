@@ -26,7 +26,7 @@ g++ -std=c++11 -o rudatctrl -g main.cpp rudat_6000_90_attenuator.cpp -lusb -lhid
 
 ### Installing
 
-sudo cp rudatctrl /usr/local/bin
+sudo ./install.sh
 
 ### Examples
 
