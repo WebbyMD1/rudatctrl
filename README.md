@@ -30,7 +30,7 @@ sudo ./install.sh
 
 ### Examples
 
-Rudatctrl requires low level hardware access, and as such must normally be run as as super user (sudo).
+Rudatctrl requires low level hardware access, The install script sets up udev rules to accomodate this.
 
 List the serial number of all attached rudat 6000 attenuators:
 
