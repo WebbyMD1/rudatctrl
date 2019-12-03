@@ -58,7 +58,7 @@ int main( int argc, char* argv[] )
                 md1tech::Rudat6k90 attenuator( pHandle ) ;        
                 std::string serstr( "" ) ;
                 attenuator.getSerialNumber( serstr ) ;
-                std::cout << "serial number: " << serstr << std::endl ;
+                std::cout << serstr << std::endl ;
                 hid_close( pHandle ) ;
             }
         
