@@ -27,64 +27,31 @@ int main( int argc, char* argv[] )
         ( "s,serial", "Serial number", cxxopts::value<std::string>() )
         ( "a,atten",  "Attenuation",   cxxopts::value<int>()         ) ;
 
-    auto result = options.parse( argc, argv ) ;
-    int hidinit = hid_init() ;
-
-    if ( hidinit == -1 )
+    try
     {
-        std::cerr << "hidapi library error" << std::endl ;
-        retval = -1 ;
-    }
+        auto result = options.parse( argc, argv ) ;
+        int hidinit = hid_init() ;
 
-    if ( result.count( "help" ) )
-    {
-        std::cout << options.help() << std::endl ;
-        retval = 0 ;
-    }
-    else if ( result.count( "list" ) )
-    {
-        // List all of the Rudat attenuators in the system
-        struct hid_device_info * dev     = 0 ;
-        struct hid_device_info * cur_dev = 0 ;
-
-        dev = hid_enumerate( sVendorId, sProductId ) ;
-        cur_dev = dev ;
-        while ( cur_dev )
+        if ( hidinit == -1 )
         {
-            hid_device * pHandle = hid_open_path( cur_dev->path ) ;
-
-            if ( pHandle != 0 )
-            {
-                md1tech::Rudat6k90 attenuator( pHandle ) ;        
-                std::string serstr( "" ) ;
-                attenuator.getSerialNumber( serstr ) ;
-                std::cout << serstr << std::endl ;
-                hid_close( pHandle ) ;
-            }
-        
-            cur_dev = cur_dev->next ;
+            std::cerr << "hidapi library error" << std::endl ;
+            retval = -1 ;
         }
 
-        retval = 0 ;
-    }
-    else if ( result.count( "serial" ) )
-    {
-        std::string serialstring = result[ "serial" ].as<std::string>() ;
-
-        // to get here the command line doesn't contain help or list, but does
-        // contain serial. Work out if it's get or set and then execute upon it
-        if ( result.count( "atten" ) )
+        if ( result.count( "help" ) )
         {
-            int atten = result[ "atten" ].as<int>() ;
-
-            // Set attenuation command
+            std::cout << options.help() << std::endl ;
+            retval = 0 ;
+        }
+        else if ( result.count( "list" ) )
+        {
+            // List all of the Rudat attenuators in the system
             struct hid_device_info * dev     = 0 ;
             struct hid_device_info * cur_dev = 0 ;
 
             dev = hid_enumerate( sVendorId, sProductId ) ;
             cur_dev = dev ;
-            bool found = false ;
-            while ( cur_dev && found == false )
+            while ( cur_dev )
             {
                 hid_device * pHandle = hid_open_path( cur_dev->path ) ;
 
@@ -93,80 +60,123 @@ int main( int argc, char* argv[] )
                     md1tech::Rudat6k90 attenuator( pHandle ) ;        
                     std::string serstr( "" ) ;
                     attenuator.getSerialNumber( serstr ) ;
-                    
-                    if ( serstr == serialstring )
-                    {
-                        double a = 0 ;
-                        if ( attenuator.setAttenuation( atten ) != true )
-                        {
-                            std::cerr << "attenuation out of range" << std::endl ;
-                        }
-                        else
-                        {
-                            found = true ;
-                        }
-                    }
-
+                    std::cout << serstr << std::endl ;
                     hid_close( pHandle ) ;
                 }
             
                 cur_dev = cur_dev->next ;
             }
 
-            if ( found == true ) { retval =  0 ; }
-            else                 { retval = -1 ; }
+            retval = 0 ;
+        }
+        else if ( result.count( "serial" ) )
+        {
+            std::string serialstring = result[ "serial" ].as<std::string>() ;
+
+            // to get here the command line doesn't contain help or list, but does
+            // contain serial. Work out if it's get or set and then execute upon it
+            if ( result.count( "atten" ) )
+            {
+                int atten = result[ "atten" ].as<int>() ;
+
+                // Set attenuation command
+                struct hid_device_info * dev     = 0 ;
+                struct hid_device_info * cur_dev = 0 ;
+
+                dev = hid_enumerate( sVendorId, sProductId ) ;
+                cur_dev = dev ;
+                bool found = false ;
+                while ( cur_dev && found == false )
+                {
+                    hid_device * pHandle = hid_open_path( cur_dev->path ) ;
+
+                    if ( pHandle != 0 )
+                    {
+                        md1tech::Rudat6k90 attenuator( pHandle ) ;        
+                        std::string serstr( "" ) ;
+                        attenuator.getSerialNumber( serstr ) ;
+                        
+                        if ( serstr == serialstring )
+                        {
+                            double a = 0 ;
+                            if ( attenuator.setAttenuation( atten ) != true )
+                            {
+                                std::cerr << "attenuation out of range" << std::endl ;
+                            }
+                            else
+                            {
+                                found = true ;
+                            }
+                        }
+
+                        hid_close( pHandle ) ;
+                    }
+                
+                    cur_dev = cur_dev->next ;
+                }
+
+                if ( found == true ) { retval =  0 ; }
+                else                 { retval = -1 ; }
+            }
+            else
+            {
+                // Get attenuation command
+                struct hid_device_info * dev     = 0 ;
+                struct hid_device_info * cur_dev = 0 ;
+
+                dev = hid_enumerate( sVendorId, sProductId ) ;
+                cur_dev = dev ;
+                bool found = false ;
+                while ( cur_dev && found == false )
+                {
+                    hid_device * pHandle = hid_open_path( cur_dev->path ) ;
+
+                    if ( pHandle != 0 )
+                    {
+                        md1tech::Rudat6k90 attenuator( pHandle ) ;        
+                        std::string serstr( "" ) ;
+                        attenuator.getSerialNumber( serstr ) ;
+                        
+                        if ( serstr == serialstring )
+                        {
+                            double a = 0 ;
+                            if ( attenuator.readAttenuation( a ) != true )
+                            {
+                                std::cerr << "error reading attenuation" << std::endl ;
+                            }
+                            else
+                            {
+                                std::cout << a << std::endl ;
+                                found = true ;
+                            }
+
+                            
+                        }
+
+                        hid_close( pHandle ) ;
+                    }
+                
+                    cur_dev = cur_dev->next ;
+                }
+
+                if ( found == true ) { retval =  0 ; }
+                else                 { retval = -1 ; }
+            }
         }
         else
         {
-            // Get attenuation command
-            struct hid_device_info * dev     = 0 ;
-            struct hid_device_info * cur_dev = 0 ;
-
-            dev = hid_enumerate( sVendorId, sProductId ) ;
-            cur_dev = dev ;
-            bool found = false ;
-            while ( cur_dev && found == false )
-            {
-                hid_device * pHandle = hid_open_path( cur_dev->path ) ;
-
-                if ( pHandle != 0 )
-                {
-                    md1tech::Rudat6k90 attenuator( pHandle ) ;        
-                    std::string serstr( "" ) ;
-                    attenuator.getSerialNumber( serstr ) ;
-                    
-                    if ( serstr == serialstring )
-                    {
-                        double a = 0 ;
-                        if ( attenuator.readAttenuation( a ) != true )
-                        {
-                            std::cerr << "error reading attenuation" << std::endl ;
-                        }
-                        else
-                        {
-                            std::cout << a << std::endl ;
-                            found = true ;
-                        }
-
-                        
-                    }
-
-                    hid_close( pHandle ) ;
-                }
-            
-                cur_dev = cur_dev->next ;
-            }
-
-            if ( found == true ) { retval =  0 ; }
-            else                 { retval = -1 ; }
+            std::cout << options.help() << std::endl ;
+            retval = -1 ;
         }
+
+        hid_exit() ;
+        exit( retval ) ;
     }
-    else
+    catch ( const cxxopts::OptionException& e )
     {
-        std::cout << options.help() << std::endl ;
-        retval = -1 ;   
+        std::cout << "error parsing options: " << e.what() << std::endl ;
+        exit( -1 ) ;
     }
 
-    hid_exit() ;
-    return retval ;
+    exit( retval ) ;
 }
